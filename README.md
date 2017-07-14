@@ -1,2 +1,31 @@
-# music-player-android
-Fast, efficient and pretty music player with a lot of functionality
+# music player for android
+
+# Planned features
+
+Features to be available for first 1.0 release. Not all may be finished on the first pre-release.
+
+* Fast and efficient
+* Low memory footprint
+* Intuitive, colorful interface
+* Library management
+	* ie. Detect artists with same names(names with typo) and group
+* Lyrics
+* Artist pics and info
+* Music tags editing
+* Featureful Up Next functionality
+	* drag an drop to next/later
+	* quick reorder
+* more...
+
+
+# Development
+
+Developed with MVP architecture. Libraries used:
+
+* RxJava
+* hugo
+* Glide
+* ButterKnife
+* SQLBrite
+* LeakCanary
+* more...

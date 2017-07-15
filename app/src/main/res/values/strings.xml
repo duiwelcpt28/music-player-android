@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">MusicPlayer</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    /* Activity titles */
+    <string name="title_activity_main">Library</string>
+
+    /* Menu actions*/
+    <string name="action_settings">Settings</string>
+
+    /* Tab items */
+    <string name="tab_albums">Albums</string>
+    <string name="tab_artists">Artists</string>
+    <string name="tab_genres">Genres</string>
+
+    /* Navigation drawer items */
+    <string name="nav_item_library">Library</string>
+    <string name="nav_item_settings">Settings</string>
+    <string name="title_activity_library">Library</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="action_search">Search</string>
+</resources>

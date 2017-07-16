@@ -20,12 +20,19 @@ Features to be available for first 1.0 release. Not all may be finished on the f
 
 # Development
 
-Developed with MVP architecture. Libraries used:
+Developed with MVP architecture as a single activity app using Conductor. Libraries used:
 
-* RxJava
-* hugo
-* Glide
-* ButterKnife
-* SQLBrite
-* LeakCanary
+* [Dagger2](https://github.com/google/dagger)
+* [Conductor](https://github.com/bluelinelabs/Conductor)
+* [RxJava](https://github.com/ReactiveX/RxJava)
+* [Hugo](https://github.com/JakeWharton/hugo)
+* [Glide](https://github.com/bumptech/glide)
+* [ButterKnife](https://github.com/JakeWharton/butterknife)
+* [SQLBrite](https://github.com/square/sqlbrite)
+* [LeakCanary](https://github.com/square/leakcanary)
 * more...
+
+Helpers:
+
+* https://github.com/wasabeef/awesome-android-ui
+* https://github.com/wasabeef/awesome-android-libraries

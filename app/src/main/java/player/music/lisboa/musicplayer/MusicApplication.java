@@ -20,14 +20,17 @@ public class MusicApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        applicationComponent = initDagger(this);
+        applicationComponent = initDagger();
 
-        if (LeakCanary.isInAnalyzerProcess(this)) {
-            // This process is dedicated to LeakCanary for heap analysis.
-            // You should not init your app in this process.
-            return;
+        if(BuildConfig.DEBUG) {
+            if (LeakCanary.isInAnalyzerProcess(this)) {
+                // This process is dedicated to LeakCanary for heap analysis.
+                // You should not init your app in this process.
+                return;
+            }
+            refWatcher = LeakCanary.install(this);
+            //Fabric.with(this, new Crashlytics());
         }
-        refWatcher = LeakCanary.install(this);
     }
 
     @Override
@@ -41,9 +44,9 @@ public class MusicApplication extends Application {
         return applicationComponent;
     }
 
-    protected ApplicationComponent initDagger(MusicApplication application) {
+    protected ApplicationComponent initDagger() {
         return DaggerApplicationComponent.builder()
-                .applicationModule(new ApplicationModule(application))
+                .applicationModule(new ApplicationModule(this))
                 .build();
     }
 

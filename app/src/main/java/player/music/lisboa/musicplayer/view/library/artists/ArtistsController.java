@@ -19,32 +19,32 @@ import player.music.lisboa.musicplayer.view.base.BaseController;
 
 public class ArtistsController extends BaseController {
 
-    private static final String KEY_TITLE = "ChildController.title";
-    private static final String KEY_BG_COLOR = "ChildController.bgColor";
+	private static final String KEY_TITLE = "ChildController.title";
+	private static final String KEY_BG_COLOR = "ChildController.bgColor";
 
-    @BindView(R.id.tv_title)
-    TextView tvTitle;
+	@BindView(R.id.tv_title)
+	TextView tvTitle;
 
-    public ArtistsController() {
-        this(new BundleBuilder(new Bundle())
-                .putString(KEY_TITLE, "Artists")
-                .build());
-    }
+	public ArtistsController() {
+		this(new BundleBuilder(new Bundle())
+				.putString(KEY_TITLE, "Artists")
+				.build());
+	}
 
-    public ArtistsController(Bundle args) {
-        super(args);
-    }
+	public ArtistsController(Bundle args) {
+		super(args);
+	}
 
-    @NonNull
-    @Override
-    protected View inflateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container) {
-        return inflater.inflate(R.layout.controller_albums, container, false);
-    }
+	@NonNull
+	@Override
+	protected View inflateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container) {
+		return inflater.inflate(R.layout.controller_artists, container, false);
+	}
 
-    @Override
-    protected void onViewBound(@NonNull View view) {
-        super.onViewBound(view);
+	@Override
+	protected void onViewBound(@NonNull View view) {
+		super.onViewBound(view);
 
-        tvTitle.setText(getArgs().getString(KEY_TITLE));
-    }
+		tvTitle.setText(getArgs().getString(KEY_TITLE));
+	}
 }

@@ -15,23 +15,21 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-
         <meta-data
             android:name="io.fabric.ApiKey"
-            android:value="223e437e555277684aa961e31dd32a419ed2ba20"
-            />
+            android:value="223e437e555277684aa961e31dd32a419ed2ba20" />
 
         <activity
             android:name=".view.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"
             android:launchMode="singleTask"
+            android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>

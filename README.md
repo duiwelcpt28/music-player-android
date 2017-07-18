@@ -1,5 +1,7 @@
 # music player for android
 
+Project developed to learn new development techniques, features and frameworks.
+
 # Planned features
 
 Features to be available for first 1.0 release. Not all may be finished on the first pre-release.

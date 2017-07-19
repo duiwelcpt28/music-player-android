@@ -8,18 +8,25 @@ import player.music.lisboa.musicplayer.model.MusicRepository;
  * Created by Lisboa on 15-Jul-17.
  */
 
-final class AlbumsPresenter {
+public class AlbumsPresenter{
 
-    private final MusicRepository musicRepository;
+	private final MusicRepository musicRepository;
+	private final AlbumsController view;
 
-    @Inject
-    AlbumsPresenter(MusicRepository musicRepository){
-        this.musicRepository = musicRepository;
-    }
+	@Inject
+	public AlbumsPresenter(AlbumsController view, MusicRepository musicRepository) {
+		this.musicRepository = musicRepository;
+		this.view = view;
+		setupView();
+	}
 
-    @Inject
-    void setupListeners() {
-        //mTasksView.setPresenter(this);
-    }
+	public void setupView(){
+		view.setPresenter(this);
+	}
+
+	public void subscribe(){
+		musicRepository.test();
+	}
+
 
 }

@@ -7,11 +7,13 @@ import javax.inject.Singleton;
  * Created by Lisboa on 15-Jul-17.
  */
 
-@Singleton
 public class MusicRepository {
 
-    @Inject
-    MusicRepository() {
-    }
+	public MusicRepository() {
+	}
+
+	public void test() {
+		System.out.println(this);
+	}
 
 }

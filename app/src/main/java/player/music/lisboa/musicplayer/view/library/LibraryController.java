@@ -20,6 +20,7 @@ import player.music.lisboa.musicplayer.view.base.BaseController;
 import player.music.lisboa.musicplayer.view.library.albums.AlbumsController;
 import player.music.lisboa.musicplayer.view.library.artists.ArtistsController;
 import player.music.lisboa.musicplayer.view.library.genre.GenresController;
+import player.music.lisboa.musicplayer.view.library.playlists.PlaylistsController;
 
 /**
  * Created by Lisboa on 15-Jul-17.
@@ -29,7 +30,7 @@ import player.music.lisboa.musicplayer.view.library.genre.GenresController;
 
 public class LibraryController extends BaseController {
 
-	private static final String[] TABS = new String[]{"Albums", "Artists", "Genres"};
+	private static final String[] TABS = new String[]{"Albums", "Artists", "Genres", "Playlists"};
 
 	@BindView(R.id.tab_layout)
 	TabLayout tabLayout;
@@ -56,6 +57,9 @@ public class LibraryController extends BaseController {
 						case 2:
 							page = new GenresController();
 							break;
+						case 3:
+							page = new PlaylistsController();
+							break;
 						default:
 							page = new AlbumsController();
 					}
@@ -66,7 +70,7 @@ public class LibraryController extends BaseController {
 
 			@Override
 			public int getCount() {
-				return 3;
+				return TABS.length;
 			}
 
 			@Override

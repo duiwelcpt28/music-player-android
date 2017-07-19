@@ -1,13 +1,8 @@
 package player.music.lisboa.musicplayer.dagger.component;
 
-import com.bumptech.glide.Glide;
-
-import javax.inject.Singleton;
-
 import dagger.Component;
 import okhttp3.OkHttpClient;
 import player.music.lisboa.musicplayer.dagger.module.MusicApplicationModule;
-import player.music.lisboa.musicplayer.dagger.module.GlideModule;
 import player.music.lisboa.musicplayer.dagger.module.NetworkModule;
 import player.music.lisboa.musicplayer.dagger.module.RepositoryModule;
 import player.music.lisboa.musicplayer.dagger.scope.MusicApplicationScope;
@@ -19,10 +14,8 @@ import player.music.lisboa.musicplayer.view.MainActivity;
  */
 
 @MusicApplicationScope
-@Component(modules = {MusicApplicationModule.class, NetworkModule.class, GlideModule.class, RepositoryModule.class})
+@Component(modules = {MusicApplicationModule.class, NetworkModule.class, RepositoryModule.class})
 public interface MusicApplicationComponent {
-
-	Glide getGlide();
 
 	OkHttpClient getHttpClient();
 

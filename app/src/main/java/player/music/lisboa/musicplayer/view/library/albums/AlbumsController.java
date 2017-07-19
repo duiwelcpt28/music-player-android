@@ -7,10 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.bluelinelabs.conductor.RouterTransaction;
 import com.bluelinelabs.conductor.changehandler.FadeChangeHandler;
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +39,9 @@ public class AlbumsController extends BaseController{
 
 	@BindView(R.id.list)
 	ListView listView;
+
+	@BindView(R.id.image_test)
+	ImageView imageTest;
 
 	private List<String> albums;
 	private ArrayAdapter<String> listAlbumsAdapter;

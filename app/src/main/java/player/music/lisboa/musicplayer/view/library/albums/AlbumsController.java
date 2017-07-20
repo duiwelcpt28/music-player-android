@@ -68,13 +68,11 @@ public class AlbumsController extends BaseController implements AlbumsView,
 
 	public AlbumsController(Bundle args) {
 		super(args);
-		if (controllerComponent == null) {
-			controllerComponent = DaggerControllerComponent.builder()
+		DaggerControllerComponent.builder()
 					.musicApplicationComponent(MusicApplication.getAppComponent())
 					.presenterModule(new PresenterModule())
-					.build();
-		}
-		controllerComponent.inject(this);
+					.build().inject(this);
+
 		addLifecycleListener(new MvpConductorLifecycleListener<>(this));
 
 		albums = new ArrayList<>();
@@ -121,7 +119,7 @@ public class AlbumsController extends BaseController implements AlbumsView,
 
 	@Override
 	public void setPresenter(@NonNull AlbumsPresenter presenter) {
-		Log.d(TAG, "Presenter injected");
+		logPresenter(presenter);
 		this.albumsPresenter = presenter;
 	}
 

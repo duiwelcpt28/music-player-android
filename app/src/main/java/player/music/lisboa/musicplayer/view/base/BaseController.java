@@ -3,9 +3,12 @@ package player.music.lisboa.musicplayer.view.base;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
+import android.util.Log;
 import android.view.View;
 
 import com.bluelinelabs.conductor.Controller;
+import com.hannesdorfmann.mosby3.mvp.MvpPresenter;
+import com.hannesdorfmann.mosby3.mvp.MvpView;
 
 import player.music.lisboa.musicplayer.dagger.component.ControllerComponent;
 import player.music.lisboa.musicplayer.view.root.RootController;
@@ -15,10 +18,12 @@ import player.music.lisboa.musicplayer.view.root.RootController;
  */
 public abstract class BaseController extends RefWatchingController {
 
+	private static final String TAG = "BaseController";
+	private static final String MOSBY_TAG = "MOSBY";
+
 	// navigation drawer is always enabled unless specified. ie.AlbumDetailController
 	private boolean navigationState = true;
 	private boolean toolbarHideState = true;
-	protected ControllerComponent controllerComponent;
 
 	protected BaseController() {
 	}
@@ -83,6 +88,16 @@ public abstract class BaseController extends RefWatchingController {
 		if(getParentController() instanceof RootController){
 			((RootController) getParentController()).toggleNavigationDrawer(navigationState);
 		}
+	}
+
+	/**
+	 * Just for debugging purposes - called on controller.setPresenter
+	 * which should be run called by Mosby
+	 *
+	 * @param presenter injected/inserted with Mosby into controller
+	 */
+	protected void logPresenter(MvpPresenter presenter){
+		Log.d(MOSBY_TAG, "presenter injected:" + presenter);
 	}
 
 	public interface ActionBarProvider {

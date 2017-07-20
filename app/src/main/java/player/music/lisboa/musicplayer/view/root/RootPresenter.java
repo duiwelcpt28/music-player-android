@@ -1,5 +1,7 @@
 package player.music.lisboa.musicplayer.view.root;
 
+import android.util.Log;
+
 import com.hannesdorfmann.mosby3.mvp.MvpPresenter;
 
 /**
@@ -8,12 +10,13 @@ import com.hannesdorfmann.mosby3.mvp.MvpPresenter;
 
 public class RootPresenter implements MvpPresenter<RootView> {
 
+	private static final String TAG = "RootPresenter";
 	private RootView view;
 
 	@Override
 	public void attachView(RootView view) {
 		this.view = view;
-		System.out.println("Presenter:onAttachView:" + this);
+		Log.d(TAG, "attachView with:" + this);
 	}
 
 	@Override

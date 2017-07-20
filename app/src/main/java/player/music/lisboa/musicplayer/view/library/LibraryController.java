@@ -30,6 +30,8 @@ import player.music.lisboa.musicplayer.view.library.playlists.PlaylistsControlle
 
 public class LibraryController extends BaseController {
 
+	public static final String LIBRARY_TAG = "Library";
+
 	private static final String[] TABS = new String[]{"Albums", "Artists", "Genres", "Playlists"};
 
 	@BindView(R.id.tab_layout)
@@ -87,7 +89,7 @@ public class LibraryController extends BaseController {
 
 	@Override
 	public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-		inflater.inflate(R.menu.library_menu_items, menu);
+		inflater.inflate(R.menu.controller_library_menu, menu);
 	}
 
 	@Override

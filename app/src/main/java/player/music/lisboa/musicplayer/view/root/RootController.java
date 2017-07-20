@@ -20,6 +20,7 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.widget.RelativeLayout;
 
+import com.bluelinelabs.conductor.Controller;
 import com.bluelinelabs.conductor.ControllerChangeHandler;
 import com.bluelinelabs.conductor.ControllerChangeType;
 import com.bluelinelabs.conductor.Router;
@@ -37,16 +38,19 @@ import player.music.lisboa.musicplayer.dagger.module.PresenterModule;
 import player.music.lisboa.musicplayer.util.anim.SlideAnimation;
 import player.music.lisboa.musicplayer.view.base.BaseController;
 import player.music.lisboa.musicplayer.view.library.LibraryController;
+import player.music.lisboa.musicplayer.view.settings.SettingsController;
 
 import static android.support.design.widget.AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS;
 import static android.support.design.widget.AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL;
+import static player.music.lisboa.musicplayer.view.library.LibraryController.LIBRARY_TAG;
+import static player.music.lisboa.musicplayer.view.settings.SettingsController.SETTINGS_TAG;
 
 /**
  * Created by Lisboa on 17-Jul-17.
  */
 
 public class RootController extends BaseController implements NavigationView.OnNavigationItemSelectedListener,
-		RootView, MvpConductorDelegateCallback<RootView, RootPresenter>{
+		RootView, MvpConductorDelegateCallback<RootView, RootPresenter> {
 
 	private static final String TAG = "RootController";
 
@@ -73,14 +77,13 @@ public class RootController extends BaseController implements NavigationView.OnN
 	@Inject
 	RootPresenter rootPresenter;
 
-	public RootController(){
-		if(controllerComponent == null) {
-			controllerComponent = DaggerControllerComponent.builder()
-					.musicApplicationComponent(MusicApplication.getAppComponent())
-					.presenterModule(new PresenterModule())
-					.build();
-		}
-		controllerComponent.inject(this);
+	public RootController() {
+		DaggerControllerComponent.builder()
+				.musicApplicationComponent(MusicApplication.getAppComponent())
+				.presenterModule(new PresenterModule())
+				.build().inject(this);
+
+		// only add lifecycle for mosby after dagger injection
 		addLifecycleListener(new MvpConductorLifecycleListener<>(this));
 		setRetainViewMode(RetainViewMode.RETAIN_DETACH);
 	}
@@ -95,7 +98,7 @@ public class RootController extends BaseController implements NavigationView.OnN
 		super.onChangeEnded(changeHandler, changeType);
 		if (changeType == ControllerChangeType.PUSH_ENTER) {
 			if (!router.hasRootController())
-				router.setRoot(RouterTransaction.with(new LibraryController()).tag("Home"));
+				router.setRoot(RouterTransaction.with(new LibraryController()).tag(LIBRARY_TAG));
 		}
 	}
 
@@ -131,6 +134,7 @@ public class RootController extends BaseController implements NavigationView.OnN
 		});
 		drawerToggle.syncState();
 		navigationView.setNavigationItemSelectedListener(this);
+		navigationView.setCheckedItem(R.id.nav_library);
 	}
 
 	private void setupUI() {
@@ -160,13 +164,6 @@ public class RootController extends BaseController implements NavigationView.OnN
 			drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 			drawerToggle.setDrawerIndicatorEnabled(false);
 			drawerToggle.setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp);
-			drawerToggle.setToolbarNavigationClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					System.out.println("DrawerToggle:pressed back");
-					handleBack();
-				}
-			});
 		}
 		drawerToggle.syncState();
 	}
@@ -183,9 +180,9 @@ public class RootController extends BaseController implements NavigationView.OnN
 		Log.d(TAG, "Toggle toolbar hide:" + hideState);
 
 		AppBarLayout.LayoutParams toolbarLayoutParams = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
-		if(hideState) {
+		if (hideState) {
 			toolbarLayoutParams.setScrollFlags(SCROLL_FLAG_SCROLL | SCROLL_FLAG_ENTER_ALWAYS);
-		}else{
+		} else {
 			toolbarLayoutParams.setScrollFlags(0);
 		}
 	}
@@ -196,20 +193,39 @@ public class RootController extends BaseController implements NavigationView.OnN
 			drawerLayout.closeDrawer(GravityCompat.START);
 			return false;
 		}
+
 		switch (item.getItemId()) {
 			case R.id.nav_library:
+				changeController(new LibraryController(), LIBRARY_TAG);
 				break;
 
 			case R.id.nav_settings:
+				changeController(new SettingsController(), SETTINGS_TAG);
 				break;
 		}
-		drawerLayout.closeDrawer(GravityCompat.START);
+		item.setChecked(true);
 		return true;
+	}
+
+	/**
+	 * Ensure that when moving to a controller it doesn't already exist in the backstack
+	 *
+	 * @param controller controller being pushed
+	 * @param tag        tag to verify if a controller is in backstack
+	 */
+	private void changeController(Controller controller, String tag) {
+		if (router.getControllerWithTag(tag) == null) {
+			router.pushController(RouterTransaction.with(controller).tag(tag));
+		} else {
+			router.popToTag(tag);
+		}
+
+		drawerLayout.closeDrawer(GravityCompat.START);
 	}
 
 	@Override
 	public void showMiniPlayer() {
-		if(miniPlayer.getVisibility() == View.GONE) {
+		if (miniPlayer.getVisibility() == View.GONE) {
 			miniPlayer.setVisibility(View.VISIBLE);
 			Animation animation = new SlideAnimation(miniPlayer, 0,
 					getResources().getDimensionPixelSize(R.dimen.miniPlayerHeight));
@@ -219,12 +235,29 @@ public class RootController extends BaseController implements NavigationView.OnN
 			miniPlayer.setAnimation(animation);
 			miniPlayer.startAnimation(animation);
 
-			// container for internal controllers will occupy remaining space
-			nestedScrollView.getLayoutParams().height = nestedScrollView.getMeasuredHeight()
-					- (getResources().getDimensionPixelSize(R.dimen.miniPlayerHeight));
-			nestedScrollView.requestLayout();
+			// resize scroll view/container of child controller after animation finishes
+			miniPlayer.setLayoutAnimationListener(new Animation.AnimationListener() {
+				@Override
+				public void onAnimationStart(Animation animation) {
+				}
+
+				@Override
+				public void onAnimationEnd(Animation animation) {
+					// container for internal controllers will occupy remaining space
+					nestedScrollView.getLayoutParams().height = nestedScrollView.getMeasuredHeight()
+							- (getResources().getDimensionPixelSize(R.dimen.miniPlayerHeight));
+					nestedScrollView.requestLayout();
+				}
+
+				@Override
+				public void onAnimationRepeat(Animation animation) {
+
+				}
+			});
 		}
 	}
+
+	// MOSBY
 
 	@NonNull
 	@Override
@@ -240,6 +273,7 @@ public class RootController extends BaseController implements NavigationView.OnN
 
 	@Override
 	public void setPresenter(@NonNull RootPresenter presenter) {
+		logPresenter(presenter);
 		this.rootPresenter = presenter;
 	}
 
@@ -248,4 +282,5 @@ public class RootController extends BaseController implements NavigationView.OnN
 	public RootView getMvpView() {
 		return this;
 	}
+
 }

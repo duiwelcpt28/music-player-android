@@ -1,9 +1,7 @@
-package player.music.lisboa.musicplayer.view.library.artists;
+package player.music.lisboa.musicplayer.view.settings;
 
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,31 +16,26 @@ import butterknife.BindView;
 import player.music.lisboa.musicplayer.MusicApplication;
 import player.music.lisboa.musicplayer.R;
 import player.music.lisboa.musicplayer.dagger.component.DaggerControllerComponent;
-import player.music.lisboa.musicplayer.dagger.component.MusicApplicationComponent;
 import player.music.lisboa.musicplayer.dagger.module.PresenterModule;
-import player.music.lisboa.musicplayer.util.BundleBuilder;
 import player.music.lisboa.musicplayer.view.base.BaseController;
 
 /**
- * Created by Lisboa on 15-Jul-17.
+ * Created by Lisboa on 20-Jul-17.
  */
 
-public class ArtistsController extends BaseController implements ArtistsView,
-		MvpConductorDelegateCallback<ArtistsView, ArtistsPresenter>{
+public class SettingsController extends BaseController implements SettingsView,
+		MvpConductorDelegateCallback<SettingsView, SettingsPresenter> {
 
-	private static final String KEY_TITLE = "ChildController.title";
-	private static final String KEY_BG_COLOR = "ChildController.bgColor";
+	public static final String SETTINGS_TAG = "Settings";
 
 	@BindView(R.id.tv_title)
-	TextView tvTitle;
+	TextView textView;
 
 	@Inject
-	ArtistsPresenter artistsPresenter;
+	SettingsPresenter settingsPresenter;
 
-	public ArtistsController() {
-		this(new BundleBuilder(new Bundle())
-				.putString(KEY_TITLE, "Artists")
-				.build());
+	public SettingsController(){
+		super(null, true, false);
 
 		DaggerControllerComponent.builder()
 				.musicApplicationComponent(MusicApplication.getAppComponent())
@@ -52,45 +45,46 @@ public class ArtistsController extends BaseController implements ArtistsView,
 		addLifecycleListener(new MvpConductorLifecycleListener<>(this));
 	}
 
-	public ArtistsController(Bundle args) {
-		super(args);
-	}
-
-	@NonNull
 	@Override
 	protected View inflateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container) {
-		return inflater.inflate(R.layout.controller_artists, container, false);
+		return inflater.inflate(R.layout.controller_settings, container, false);
 	}
 
 	@Override
 	protected void onViewBound(@NonNull View view) {
 		super.onViewBound(view);
 
-		tvTitle.setText(getArgs().getString(KEY_TITLE));
+		textView.setText("Settings");
+	}
+
+	@Override
+	protected String getTitle() {
+		return "Settings";
 	}
 
 	// MOSBY
 
 	@NonNull
 	@Override
-	public ArtistsPresenter createPresenter() {
-		return artistsPresenter;
+	public SettingsPresenter createPresenter() {
+		return settingsPresenter;
 	}
 
 	@Nullable
 	@Override
-	public ArtistsPresenter getPresenter() {
-		return artistsPresenter;
+	public SettingsPresenter getPresenter() {
+		return settingsPresenter;
 	}
 
 	@Override
-	public void setPresenter(@NonNull ArtistsPresenter presenter) {
-		this.artistsPresenter = presenter;
+	public void setPresenter(@NonNull SettingsPresenter presenter) {
+		logPresenter(presenter);
+		this.settingsPresenter = presenter;
 	}
 
 	@NonNull
 	@Override
-	public ArtistsView getMvpView() {
+	public SettingsView getMvpView() {
 		return this;
 	}
 }

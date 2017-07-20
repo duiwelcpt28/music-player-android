@@ -3,7 +3,6 @@ package player.music.lisboa.musicplayer.view.library.albumdetail;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -12,7 +11,6 @@ import butterknife.BindView;
 import player.music.lisboa.musicplayer.R;
 import player.music.lisboa.musicplayer.util.BundleBuilder;
 import player.music.lisboa.musicplayer.view.base.BaseController;
-import player.music.lisboa.musicplayer.view.base.RootController;
 
 /**
  * Created by Lisboa on 17-Jul-17.
@@ -27,7 +25,7 @@ public class AlbumDetailController extends BaseController {
 	TextView tvTitle;
 
 	public AlbumDetailController() {
-		super(null, false);
+		super(null, false, false);
 	}
 
 	public AlbumDetailController(String albumName) {
@@ -37,7 +35,7 @@ public class AlbumDetailController extends BaseController {
 	}
 
 	private AlbumDetailController(Bundle args) {
-		super(args, false);
+		super(args, false, false);
 	}
 
 	@NonNull

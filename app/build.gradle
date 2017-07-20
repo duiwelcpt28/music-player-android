@@ -35,40 +35,46 @@ dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 
+    // SUPPORT
     compile 'com.android.support:support-v4:26.0.0-beta2'
     implementation 'com.android.support:appcompat-v7:26.0.0-beta2'
     implementation 'com.android.support:support-v4:26.0.0-beta2'
     implementation 'com.android.support:design:26.0.0-beta2'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
 
+    // NETWORK
     compile 'com.squareup.okhttp3:okhttp:3.8.1'
     compile 'com.squareup.okhttp3:logging-interceptor:3.8.1'
+
+    // GLIDE
     compile 'com.github.bumptech.glide:glide:4.0.0-RC1'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.0.0-RC1'
 
+    // CONDUCTOR
+    compile 'com.bluelinelabs:conductor:2.1.4'
+    compile 'com.bluelinelabs:conductor-support:2.1.4'
+    compile 'com.hannesdorfmann.mosby3:mvp-conductor:3.0.0'
+    compile 'com.hannesdorfmann.mosby3:viewstate-conductor:3.0.0'
+
+    // DAGGER
+    compile 'com.google.dagger:dagger:2.11'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.11'
+    provided 'org.glassfish:javax.annotation:10.0-b28'
+    compile 'com.google.dagger:dagger-android:2.11'
+    compile 'com.google.dagger:dagger-android-support:2.11' // if you use the support libraries
+    annotationProcessor 'com.google.dagger:dagger-android-processor:2.11'
+
+    compile "io.reactivex.rxjava2:rxjava:2.1.1"
+
+    compile 'com.squareup.mortar:mortar:0.20'
+
+    // DEBUG TOOLS
     compile 'com.jakewharton:butterknife:8.5.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 
     compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
         transitive = true
     }
-
-    compile "io.reactivex.rxjava2:rxjava:2.1.1"
-
-    compile 'com.bluelinelabs:conductor:2.1.4'
-    compile 'com.bluelinelabs:conductor-support:2.1.4'
-
-    compile 'com.google.dagger:dagger:2.11'
-    annotationProcessor 'com.google.dagger:dagger-compiler:2.11'
-
-    provided 'org.glassfish:javax.annotation:10.0-b28'
-
-    compile 'com.google.dagger:dagger-android:2.11'
-    compile 'com.google.dagger:dagger-android-support:2.11' // if you use the support libraries
-    annotationProcessor 'com.google.dagger:dagger-android-processor:2.11'
-
-    compile 'com.squareup.mortar:mortar:0.20'
-
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.1'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'

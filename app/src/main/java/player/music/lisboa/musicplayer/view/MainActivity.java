@@ -10,11 +10,9 @@ import com.bluelinelabs.conductor.RouterTransaction;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import player.music.lisboa.musicplayer.MusicApplication;
 import player.music.lisboa.musicplayer.R;
-import player.music.lisboa.musicplayer.dagger.component.MusicApplicationComponent;
 import player.music.lisboa.musicplayer.view.base.BaseController;
-import player.music.lisboa.musicplayer.view.base.RootController;
+import player.music.lisboa.musicplayer.view.root.RootController;
 
 public class MainActivity extends AppCompatActivity implements BaseController.ActionBarProvider {
 

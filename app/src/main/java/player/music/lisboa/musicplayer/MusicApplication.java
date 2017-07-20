@@ -18,7 +18,7 @@ import player.music.lisboa.musicplayer.dagger.module.RepositoryModule;
 
 public class MusicApplication extends Application {
 
-	private MusicApplicationComponent applicationComponent;
+	private static MusicApplicationComponent applicationComponent;
 	private MortarScope rootScope;
 	public static RefWatcher refWatcher;
 
@@ -45,7 +45,7 @@ public class MusicApplication extends Application {
 		return rootScope.hasService(name) ? rootScope.getService(name) : super.getSystemService(name);
 	}
 
-	public MusicApplicationComponent getAppComponent() {
+	public static MusicApplicationComponent getAppComponent() {
 		return applicationComponent;
 	}
 

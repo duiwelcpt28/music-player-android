@@ -2,6 +2,7 @@ package player.music.lisboa.musicplayer.view.library.albums;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +13,10 @@ import android.widget.ListView;
 
 import com.bluelinelabs.conductor.RouterTransaction;
 import com.bluelinelabs.conductor.changehandler.FadeChangeHandler;
-import com.bumptech.glide.Glide;
+import com.hannesdorfmann.mosby3.conductor.viewstate.delegate.MvpViewStateConductorDelegateCallback;
+import com.hannesdorfmann.mosby3.conductor.viewstate.delegate.MvpViewStateConductorLifecycleListener;
+import com.hannesdorfmann.mosby3.mvp.conductor.delegate.MvpConductorDelegateCallback;
+import com.hannesdorfmann.mosby3.mvp.conductor.delegate.MvpConductorLifecycleListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,15 +27,20 @@ import butterknife.BindView;
 import butterknife.OnItemClick;
 import player.music.lisboa.musicplayer.MusicApplication;
 import player.music.lisboa.musicplayer.R;
+import player.music.lisboa.musicplayer.dagger.component.ControllerComponent;
+import player.music.lisboa.musicplayer.dagger.component.DaggerControllerComponent;
+import player.music.lisboa.musicplayer.dagger.module.PresenterModule;
 import player.music.lisboa.musicplayer.util.BundleBuilder;
 import player.music.lisboa.musicplayer.view.base.BaseController;
 import player.music.lisboa.musicplayer.view.library.albumdetail.AlbumDetailController;
+import player.music.lisboa.musicplayer.view.root.RootController;
 
 /**
  * Created by Lisboa on 15-Jul-17.
  */
 
-public class AlbumsController extends BaseController{
+public class AlbumsController extends BaseController implements AlbumsView,
+		MvpConductorDelegateCallback<AlbumsView, AlbumsPresenter> {
 
 	private static final String TAG = "AlbumsController";
 
@@ -46,7 +55,8 @@ public class AlbumsController extends BaseController{
 	private List<String> albums;
 	private ArrayAdapter<String> listAlbumsAdapter;
 
-	@Inject AlbumsPresenter albumsPresenter;
+	@Inject
+	AlbumsPresenter albumsPresenter;
 
 	public AlbumsController() {
 		this(new BundleBuilder(new Bundle())
@@ -58,6 +68,14 @@ public class AlbumsController extends BaseController{
 
 	public AlbumsController(Bundle args) {
 		super(args);
+		if (controllerComponent == null) {
+			controllerComponent = DaggerControllerComponent.builder()
+					.musicApplicationComponent(MusicApplication.getAppComponent())
+					.presenterModule(new PresenterModule())
+					.build();
+		}
+		controllerComponent.inject(this);
+		addLifecycleListener(new MvpConductorLifecycleListener<>(this));
 
 		albums = new ArrayList<>();
 		for (int i = 0; i < 50; i++) {
@@ -74,13 +92,6 @@ public class AlbumsController extends BaseController{
 	@Override
 	protected void onViewBound(@NonNull View view) {
 		super.onViewBound(view);
-		DaggerAlbumsComponent.builder()
-				.musicApplicationComponent(((MusicApplication) getApplicationContext())
-						.getAppComponent())
-				.albumsPresenterModule(new AlbumsPresenterModule(this))
-				.build()
-				.inject(this);
-
 		listAlbumsAdapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_list_item_1, albums);
 		listView.setAdapter(listAlbumsAdapter);
 
@@ -90,13 +101,33 @@ public class AlbumsController extends BaseController{
 	@OnItemClick(R.id.list)
 	void onAlbumClick(int position) {
 		getParentController().getRouter()
-				.pushController(RouterTransaction
-						.with(new AlbumDetailController(listAlbumsAdapter.getItem(position)))
-						.pushChangeHandler(new FadeChangeHandler()));
+				.pushController(RouterTransaction.with(new AlbumDetailController(listAlbumsAdapter.getItem(position)))
+				.pushChangeHandler(new FadeChangeHandler()));
+
+		//((RootController)getParentController().getParentController()).showMiniPlayer();
 	}
 
-	void setPresenter(AlbumsPresenter presenter) {
+	@NonNull
+	@Override
+	public AlbumsPresenter createPresenter() {
+		return albumsPresenter;
+	}
+
+	@Nullable
+	@Override
+	public AlbumsPresenter getPresenter() {
+		return albumsPresenter;
+	}
+
+	@Override
+	public void setPresenter(@NonNull AlbumsPresenter presenter) {
 		Log.d(TAG, "Presenter injected");
 		this.albumsPresenter = presenter;
+	}
+
+	@NonNull
+	@Override
+	public AlbumsView getMvpView() {
+		return this;
 	}
 }

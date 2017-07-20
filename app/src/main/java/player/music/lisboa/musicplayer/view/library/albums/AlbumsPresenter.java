@@ -1,5 +1,7 @@
 package player.music.lisboa.musicplayer.view.library.albums;
 
+import com.hannesdorfmann.mosby3.mvp.MvpPresenter;
+
 import javax.inject.Inject;
 
 import player.music.lisboa.musicplayer.model.MusicRepository;
@@ -8,20 +10,14 @@ import player.music.lisboa.musicplayer.model.MusicRepository;
  * Created by Lisboa on 15-Jul-17.
  */
 
-public class AlbumsPresenter{
+public class AlbumsPresenter implements MvpPresenter<AlbumsView>{
 
 	private final MusicRepository musicRepository;
-	private final AlbumsController view;
+	private AlbumsView view;
 
 	@Inject
-	public AlbumsPresenter(AlbumsController view, MusicRepository musicRepository) {
+	public AlbumsPresenter(MusicRepository musicRepository) {
 		this.musicRepository = musicRepository;
-		this.view = view;
-		setupView();
-	}
-
-	public void setupView(){
-		view.setPresenter(this);
 	}
 
 	public void subscribe(){
@@ -29,4 +25,16 @@ public class AlbumsPresenter{
 	}
 
 
+	@Override
+	public void attachView(AlbumsView view) {
+		this.view = view;
+		System.out.println("Presenter:onAttachView:" + this);
+	}
+
+	@Override
+	public void detachView(boolean retainInstance) {
+		if(!retainInstance){
+			view = null;
+		}
+	}
 }

@@ -7,4 +7,13 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="appbar_padding_top">8dp</dimen>
     <dimen name="navigation_drawer_width">304dp</dimen>
+
+    <!-- mini player dimensions -->
+    <dimen name="miniPlayerHeight">64dp</dimen>
+
+
+    <!-- player dimensions -->
+
+
+
 </resources>

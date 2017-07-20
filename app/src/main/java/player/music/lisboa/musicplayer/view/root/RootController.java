@@ -25,6 +25,8 @@ import com.bluelinelabs.conductor.ControllerChangeHandler;
 import com.bluelinelabs.conductor.ControllerChangeType;
 import com.bluelinelabs.conductor.Router;
 import com.bluelinelabs.conductor.RouterTransaction;
+import com.hannesdorfmann.mosby3.conductor.viewstate.delegate.MvpViewStateConductorDelegateCallback;
+import com.hannesdorfmann.mosby3.conductor.viewstate.delegate.MvpViewStateConductorLifecycleListener;
 import com.hannesdorfmann.mosby3.mvp.conductor.delegate.MvpConductorDelegateCallback;
 import com.hannesdorfmann.mosby3.mvp.conductor.delegate.MvpConductorLifecycleListener;
 
@@ -50,7 +52,7 @@ import static player.music.lisboa.musicplayer.view.settings.SettingsController.S
  */
 
 public class RootController extends BaseController implements NavigationView.OnNavigationItemSelectedListener,
-		RootView, MvpConductorDelegateCallback<RootView, RootPresenter> {
+		RootView, MvpViewStateConductorDelegateCallback<RootView, RootPresenter, RootViewState> {
 
 	private static final String TAG = "RootController";
 
@@ -73,6 +75,7 @@ public class RootController extends BaseController implements NavigationView.OnN
 
 	private Router router;
 	private ActionBarDrawerToggle drawerToggle;
+	private RootViewState rootViewState;
 
 	@Inject
 	RootPresenter rootPresenter;
@@ -84,7 +87,7 @@ public class RootController extends BaseController implements NavigationView.OnN
 				.build().inject(this);
 
 		// only add lifecycle for mosby after dagger injection
-		addLifecycleListener(new MvpConductorLifecycleListener<>(this));
+		addLifecycleListener(new MvpViewStateConductorLifecycleListener<>(this));
 		setRetainViewMode(RetainViewMode.RETAIN_DETACH);
 	}
 
@@ -105,7 +108,6 @@ public class RootController extends BaseController implements NavigationView.OnN
 	@Override
 	protected void onViewBound(@NonNull View view) {
 		super.onViewBound(view);
-
 		setupUI();
 	}
 
@@ -255,6 +257,12 @@ public class RootController extends BaseController implements NavigationView.OnN
 				}
 			});
 		}
+		rootViewState.setShowingMiniPlayer();
+	}
+
+	@Override
+	public void showBottomPlayer() {
+		rootViewState.setShowingBottomSheet();
 	}
 
 	// MOSBY
@@ -283,4 +291,41 @@ public class RootController extends BaseController implements NavigationView.OnN
 		return this;
 	}
 
+	@Override
+	public RootViewState getViewState() {
+		return rootViewState;
+	}
+
+	@Override
+	public void setViewState(RootViewState viewState) {
+		this.rootViewState = viewState;
+	}
+
+	@NonNull
+	@Override
+	public RootViewState createViewState() {
+		rootViewState = new RootViewState();
+		return rootViewState;
+	}
+
+	@Override
+	public void setRestoringViewState(boolean restoringViewState) {
+		// restoring in progress - do nothing
+	}
+
+	@Override
+	public boolean isRestoringViewState() {
+		//true if the viewstate is restoring right now (not finished yet). Otherwise false.
+		return false;
+	}
+
+	@Override
+	public void onViewStateInstanceRestored(boolean instanceStateRetained) {
+		rootViewState.apply(this, instanceStateRetained);
+	}
+
+	@Override
+	public void onNewViewStateInstance() {
+		// do nothing
+	}
 }

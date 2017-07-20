@@ -7,5 +7,9 @@ import com.hannesdorfmann.mosby3.mvp.MvpView;
  */
 
 public interface RootView extends MvpView {
+
 	void showMiniPlayer();
+
+	void showBottomPlayer();
+
 }

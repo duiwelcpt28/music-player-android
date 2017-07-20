@@ -18,6 +18,7 @@ public class AlbumDetailPresenter implements MvpPresenter<AlbumDetailView> {
 	public void attachView(AlbumDetailView view) {
 		this.detailView = view;
 		Log.d(TAG, "attachView with:" + this);
+
 	}
 
 	@Override

@@ -102,7 +102,7 @@ public class AlbumsController extends BaseController implements AlbumsView,
 				.pushController(RouterTransaction.with(new AlbumDetailController(listAlbumsAdapter.getItem(position)))
 				.pushChangeHandler(new FadeChangeHandler()));
 
-		//((RootController)getParentController().getParentController()).showMiniPlayer();
+		((RootController)getParentController().getParentController()).showMiniPlayer();
 	}
 
 	@NonNull

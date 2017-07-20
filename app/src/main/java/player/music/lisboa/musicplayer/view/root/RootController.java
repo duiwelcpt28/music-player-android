@@ -56,8 +56,6 @@ public class RootController extends BaseController implements NavigationView.OnN
 
 	private static final String TAG = "RootController";
 
-	private static final String KEY_MINI_PLAYER = "RootController.miniPlayer";
-
 	@BindView(R.id.controller_container)
 	ViewGroup container;
 	@BindView(R.id.controller_nested_scroll)
@@ -265,7 +263,7 @@ public class RootController extends BaseController implements NavigationView.OnN
 		rootViewState.setShowingBottomSheet();
 	}
 
-	// MOSBY
+	// MOSBY - presenter
 
 	@NonNull
 	@Override
@@ -290,6 +288,8 @@ public class RootController extends BaseController implements NavigationView.OnN
 	public RootView getMvpView() {
 		return this;
 	}
+
+	// MOSBY - view state
 
 	@Override
 	public RootViewState getViewState() {
@@ -321,7 +321,8 @@ public class RootController extends BaseController implements NavigationView.OnN
 
 	@Override
 	public void onViewStateInstanceRestored(boolean instanceStateRetained) {
-		rootViewState.apply(this, instanceStateRetained);
+		// viewState.apply is already called by the MvpViewStateDelegate
+		// do nothing
 	}
 
 	@Override

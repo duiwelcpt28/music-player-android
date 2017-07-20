@@ -1,5 +1,7 @@
 package player.music.lisboa.musicplayer.view.root;
 
+import android.util.Log;
+
 import com.hannesdorfmann.mosby3.mvp.viewstate.ViewState;
 
 /**
@@ -7,6 +9,8 @@ import com.hannesdorfmann.mosby3.mvp.viewstate.ViewState;
  */
 
 public class RootViewState implements ViewState<RootView> {
+
+	private static final String TAG = "RootViewState";
 
 	/**
 	 * Used to indicate that the mini player is shown
@@ -33,6 +37,7 @@ public class RootViewState implements ViewState<RootView> {
 
 	@Override
 	public void apply(RootView view, boolean retained) {
+		Log.d(TAG, "restoring view:" + view + "\n\twith state:" + currentViewState);
 		if(currentViewState == STATE_SHOW_MINI_PLAYER){
 			view.showMiniPlayer();
 		}else if(currentViewState == STATE_SHOW_BOTTOM_SHEET){
@@ -40,4 +45,8 @@ public class RootViewState implements ViewState<RootView> {
 		}
 	}
 
+	@Override
+	public String toString() {
+		return "playerState:" + currentViewState + "\n";
+	}
 }

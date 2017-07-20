@@ -24,14 +24,11 @@ public class AlbumsPresenter implements MvpPresenter<AlbumsView> {
 		this.musicRepository = musicRepository;
 	}
 
-	public void subscribe() {
-		musicRepository.test();
-	}
-
 	@Override
 	public void attachView(AlbumsView view) {
 		this.view = view;
 		Log.d(TAG, "attachView with:" + this);
+		view.showAlbums(musicRepository.getAlbums());
 	}
 
 	@Override

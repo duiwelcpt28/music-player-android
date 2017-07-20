@@ -25,6 +25,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnItemClick;
+import hugo.weaving.DebugLog;
 import player.music.lisboa.musicplayer.MusicApplication;
 import player.music.lisboa.musicplayer.R;
 import player.music.lisboa.musicplayer.dagger.component.ControllerComponent;
@@ -52,7 +53,6 @@ public class AlbumsController extends BaseController implements AlbumsView,
 	@BindView(R.id.image_test)
 	ImageView imageTest;
 
-	private List<String> albums;
 	private ArrayAdapter<String> listAlbumsAdapter;
 
 	@Inject
@@ -74,11 +74,6 @@ public class AlbumsController extends BaseController implements AlbumsView,
 					.build().inject(this);
 
 		addLifecycleListener(new MvpConductorLifecycleListener<>(this));
-
-		albums = new ArrayList<>();
-		for (int i = 0; i < 50; i++) {
-			albums.add("Album " + i);
-		}
 	}
 
 	@NonNull
@@ -90,20 +85,27 @@ public class AlbumsController extends BaseController implements AlbumsView,
 	@Override
 	protected void onViewBound(@NonNull View view) {
 		super.onViewBound(view);
-		listAlbumsAdapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_list_item_1, albums);
-		listView.setAdapter(listAlbumsAdapter);
-
-		albumsPresenter.subscribe();
 	}
 
 	@OnItemClick(R.id.list)
 	void onAlbumClick(int position) {
 		getParentController().getRouter()
-				.pushController(RouterTransaction.with(new AlbumDetailController(listAlbumsAdapter.getItem(position)))
+				.pushController(RouterTransaction
+						.with(new AlbumDetailController(listAlbumsAdapter.getItem(position)))
 				.pushChangeHandler(new FadeChangeHandler()));
 
 		((RootController)getParentController().getParentController()).showMiniPlayer();
 	}
+
+	@DebugLog
+	@Override
+	public void showAlbums(List<String> albums) {
+		listAlbumsAdapter = new ArrayAdapter<>(getView().getContext(),
+				android.R.layout.simple_list_item_1, albums);
+		listView.setAdapter(listAlbumsAdapter);
+	}
+
+	// MOSBY
 
 	@NonNull
 	@Override

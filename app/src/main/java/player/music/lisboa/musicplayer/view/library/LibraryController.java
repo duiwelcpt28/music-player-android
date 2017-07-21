@@ -80,6 +80,9 @@ public class LibraryController extends BaseController {
 				return TABS[position];
 			}
 		};
+		// TODO: 21-Jul-17 Play around with these method to figure out best config
+		//pagerAdapter.setMaxPagesToStateSave();
+		//viewPager.setOffscreenPageLimit();
 	}
 
 	@Override

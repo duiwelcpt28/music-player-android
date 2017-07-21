@@ -47,6 +47,8 @@ public class RootViewState implements ViewState<RootView> {
 
 	@Override
 	public String toString() {
-		return "playerState:" + currentViewState + "\n";
+		return "RootViewState{" +
+				"currentViewState=" + currentViewState +
+				'}';
 	}
 }

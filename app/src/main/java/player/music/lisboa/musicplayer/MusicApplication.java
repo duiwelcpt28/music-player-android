@@ -5,7 +5,6 @@ import android.app.Application;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 
-import mortar.MortarScope;
 import player.music.lisboa.musicplayer.dagger.component.DaggerMusicApplicationComponent;
 import player.music.lisboa.musicplayer.dagger.component.MusicApplicationComponent;
 import player.music.lisboa.musicplayer.dagger.module.MusicApplicationModule;
@@ -19,7 +18,6 @@ import player.music.lisboa.musicplayer.dagger.module.RepositoryModule;
 public class MusicApplication extends Application {
 
 	private static MusicApplicationComponent applicationComponent;
-	private MortarScope rootScope;
 	public static RefWatcher refWatcher;
 
 	@Override
@@ -36,13 +34,6 @@ public class MusicApplication extends Application {
 			refWatcher = LeakCanary.install(this);
 			//Fabric.with(this, new Crashlytics());
 		}
-	}
-
-	@Override
-	public Object getSystemService(String name) {
-		if (rootScope == null) rootScope = MortarScope.buildRootScope().build("Root");
-
-		return rootScope.hasService(name) ? rootScope.getService(name) : super.getSystemService(name);
 	}
 
 	public static MusicApplicationComponent getAppComponent() {

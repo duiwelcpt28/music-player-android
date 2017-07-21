@@ -16,23 +16,10 @@ import player.music.lisboa.musicplayer.view.root.RootController;
 
 public class MainActivity extends AppCompatActivity implements BaseController.ActionBarProvider {
 
-	@BindView(R.id.controller_container) ViewGroup container;
+	@BindView(R.id.controller_container)
+	ViewGroup container;
 
 	private Router router;
-
-    /*@Override
-	public Object getSystemService(String name) {
-        MortarScope activityScope = MortarScope.findChild(getApplicationContext(), getScopeName());
-
-        if (activityScope == null) {
-            activityScope = buildChild(getApplicationContext()) //
-                    .withService(BundleServiceRunner.SERVICE_NAME, new BundleServiceRunner())
-                    .withService(DaggerService.SERVICE_NAME, DaggerService.createComponent(Main.Component.class))
-                    .build(getScopeName());
-        }
-
-        return activityScope.hasService(name) ? activityScope.getService(name) : super.getSystemService(name);
-    }*/
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +41,4 @@ public class MainActivity extends AppCompatActivity implements BaseController.Ac
 		}
 	}
 
-	private String getScopeName() {
-		return getClass().getName();
-	}
 }

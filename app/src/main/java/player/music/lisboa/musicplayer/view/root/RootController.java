@@ -1,5 +1,6 @@
 package player.music.lisboa.musicplayer.view.root;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -68,8 +69,6 @@ public class RootController extends BaseController implements NavigationView.OnN
 	NavigationView navigationView;
 	@BindView(R.id.mini_player)
 	RelativeLayout miniPlayer;
-	@BindView(R.id.coordinator)
-	CoordinatorLayout coordinatorLayout;
 
 	private Router router;
 	private ActionBarDrawerToggle drawerToggle;
@@ -290,6 +289,12 @@ public class RootController extends BaseController implements NavigationView.OnN
 	}
 
 	// MOSBY - view state
+
+	/**
+	 * Mosby is used to save view state instead of {@link #saveViewState(View)}
+	 * and {@link #restoreViewState(View)} because the Controller view
+	 * can't survive configuration changes as mentioned in {@link Controller.RetainViewMode}
+	 */
 
 	@Override
 	public RootViewState getViewState() {

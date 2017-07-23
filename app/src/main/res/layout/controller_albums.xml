@@ -4,15 +4,10 @@
     android:layout_height="match_parent"
     >
 
-    <ImageView
-        android:id="@+id/image_test"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="200dp" />
-
-    <ListView
-        android:id="@+id/list"
-        android:nestedScrollingEnabled="true"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        />
 
 </FrameLayout>

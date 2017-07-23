@@ -29,6 +29,7 @@ android {
 
 repositories {
     maven { url 'https://maven.fabric.io/public' }
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
 }
 
 dependencies {
@@ -55,8 +56,8 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.0.0-RC1'
 
     // CONDUCTOR
-    compile 'com.bluelinelabs:conductor:2.1.4'
-    compile 'com.bluelinelabs:conductor-support:2.1.4'
+    compile 'com.bluelinelabs:conductor:2.1.5-SNAPSHOT'
+    compile 'com.bluelinelabs:conductor-support:2.1.5-SNAPSHOT'
     compile 'com.hannesdorfmann.mosby3:mvp-conductor:3.0.0'
     compile 'com.hannesdorfmann.mosby3:viewstate-conductor:3.0.0'
 

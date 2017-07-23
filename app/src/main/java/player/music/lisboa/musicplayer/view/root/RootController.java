@@ -97,8 +97,9 @@ public class RootController extends BaseController implements NavigationView.OnN
 	protected void onChangeEnded(@NonNull ControllerChangeHandler changeHandler, @NonNull ControllerChangeType changeType) {
 		super.onChangeEnded(changeHandler, changeType);
 		if (changeType == ControllerChangeType.PUSH_ENTER) {
-			if (!router.hasRootController())
+			if (!router.hasRootController()) {
 				router.setRoot(RouterTransaction.with(new LibraryController()).tag(LIBRARY_TAG));
+			}
 		}
 	}
 

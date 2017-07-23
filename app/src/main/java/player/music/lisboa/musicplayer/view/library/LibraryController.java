@@ -42,8 +42,6 @@ public class LibraryController extends BaseController {
 	private final RouterPagerAdapter pagerAdapter;
 
 	public LibraryController() {
-		setHasOptionsMenu(true);
-
 		pagerAdapter = new RouterPagerAdapter(this) {
 			@Override
 			public void configureRouter(@NonNull Router router, int position) {
@@ -107,7 +105,6 @@ public class LibraryController extends BaseController {
 	protected void onAttach(@NonNull View view) {
 		super.onAttach(view);
 	}
-
 
 
 	@Override

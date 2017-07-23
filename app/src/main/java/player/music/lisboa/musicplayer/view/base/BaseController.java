@@ -52,10 +52,10 @@ public abstract class BaseController extends RefWatchingController {
 
 	@Override
 	protected void onAttach(@NonNull View view) {
+		super.onAttach(view);
 		setTitle();
 		setNavigationState();
 		setToolbarHideState();
-		super.onAttach(view);
 	}
 
 	private void setTitle() {

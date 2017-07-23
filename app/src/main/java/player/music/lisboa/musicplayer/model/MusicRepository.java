@@ -14,12 +14,12 @@ import javax.inject.Singleton;
 
 public class MusicRepository {
 
-	private List<String> albums;
+	private List<Album> albums;
 
 	public MusicRepository() {
 		albums = new ArrayList<>();
 		for (int i = 0; i < 50; i++) {
-			albums.add("Album " + i);
+			albums.add(new Album("Album " + i));
 		}
 	}
 
@@ -27,7 +27,7 @@ public class MusicRepository {
 		System.out.println(this);
 	}
 
-	public List<String> getAlbums() {
+	public List<Album> getAlbums() {
 		return albums;
 	}
 }

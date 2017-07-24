@@ -101,13 +101,10 @@ public class AlbumsController extends BaseController implements AlbumsView,
 		getParentController().getRouter()
 				.pushController(RouterTransaction
 						.with(new AlbumDetailController(album, position))
-						.pushChangeHandler(new SharedElementChangeHandler(titleSharedElementName, imageSharedElementName))
-						.popChangeHandler(new SharedElementChangeHandler(titleSharedElementName, imageSharedElementName)));
-
-		//((RootController)getParentController().getParentController()).showMiniPlayer();
+						.pushChangeHandler(new SharedElementChangeHandler(titleSharedElementName/*, imageSharedElementName*/))
+						.popChangeHandler(new SharedElementChangeHandler(titleSharedElementName/*, imageSharedElementName*/)));
 	}
 
-	@DebugLog
 	@Override
 	public void showAlbums(List<Album> albums) {
 		listAlbumsAdapter = new AlbumAdapter(LayoutInflater.from(getView().getContext()), albums);
@@ -187,7 +184,7 @@ public class AlbumsController extends BaseController implements AlbumsView,
 			void bind(Album item, int position) {
 				this.position = position;
 				model = item;
-				imageView.setImageResource(R.drawable.ic_album_black_24dp);
+				imageView.setImageResource(R.drawable.alterbridge);
 				textView.setText(item.getName());
 
 				ViewCompat.setTransitionName(textView, getResources().getString(R.string.transition_tag_title_indexed, position));

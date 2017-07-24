@@ -1,11 +1,15 @@
 package player.music.lisboa.musicplayer.view.root;
 
+import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.NestedScrollView;
@@ -13,12 +17,14 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.bluelinelabs.conductor.Controller;
@@ -61,14 +67,22 @@ public class RootController extends BaseController implements NavigationView.OnN
 	ViewGroup container;
 	@BindView(R.id.controller_nested_scroll)
 	NestedScrollView nestedScrollView;
+
 	@BindView(R.id.toolbar)
 	Toolbar toolbar;
+	@BindView(R.id.app_bar_layout)
+	AppBarLayout appBarLayout;
+	@BindView(R.id.collapsing_toolbar)
+	CollapsingToolbarLayout collapsingToolbarLayout;
+
 	@BindView(R.id.drawer_layout)
 	DrawerLayout drawerLayout;
 	@BindView(R.id.nav_view)
 	NavigationView navigationView;
 	@BindView(R.id.mini_player)
 	RelativeLayout miniPlayer;
+	@BindView(R.id.banner)
+	ImageView banner;
 
 	private Router router;
 	private ActionBarDrawerToggle drawerToggle;
@@ -168,6 +182,24 @@ public class RootController extends BaseController implements NavigationView.OnN
 		drawerToggle.syncState();
 	}
 
+	public void setBanner(int res, String transition){
+		banner.setImageResource(res);
+		//banner.setTransitionName(transition);
+	}
+
+	public void removeBanner() {
+		banner.setImageDrawable(null);
+	}
+
+	enum State {
+		EXPANDED,
+		COLLAPSED,
+	}
+
+	// TODO: 24-Jul-17 REFACTOR
+	State mCurrentState = State.EXPANDED;
+	Boolean toolbarIsTransparent = true;
+
 	/**
 	 * From the BaseController we can alter the state of the toolbar to enable/disable hiding
 	 * This will enable/disable the toolbar behavior so it doesn't close when scrolling
@@ -179,11 +211,43 @@ public class RootController extends BaseController implements NavigationView.OnN
 	public void toggleToolbarHide(boolean hideState) {
 		Log.d(TAG, "Toggle toolbar hide:" + hideState);
 
-		AppBarLayout.LayoutParams toolbarLayoutParams = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
+		/*CollapsingToolbarLayout.LayoutParams toolbarLayoutParams = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
 		if (hideState) {
 			toolbarLayoutParams.setScrollFlags(SCROLL_FLAG_SCROLL | SCROLL_FLAG_ENTER_ALWAYS);
 		} else {
 			toolbarLayoutParams.setScrollFlags(0);
+		}*/
+
+		TypedValue tv = new TypedValue();
+		int actionBarHeight = 0;
+		final Context context = getView().getContext();
+		final CharSequence title = toolbar.getTitle();
+		if (context.getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
+			actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, getResources().getDisplayMetrics());
+		}
+
+		if (appBarLayout != null) {
+			final int finalActionBarHeight = actionBarHeight;
+			appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+				@Override
+				public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
+					if (i == 0) {
+						mCurrentState = State.EXPANDED;
+					} else if (Math.abs(i) >= appBarLayout.getTotalScrollRange()) {
+						mCurrentState = State.COLLAPSED;
+					}
+					if ((collapsingToolbarLayout.getHeight() + i <= finalActionBarHeight) && mCurrentState.equals(State.COLLAPSED)) {
+						toolbar.setBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimary));
+						toolbar.setTitle(title);
+						toolbarIsTransparent = false;
+					} else if (!toolbarIsTransparent) {
+						mCurrentState = State.EXPANDED;
+						toolbar.setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent));
+						toolbar.setTitle(null);
+						toolbarIsTransparent = true;
+					}
+				}
+			});
 		}
 	}
 

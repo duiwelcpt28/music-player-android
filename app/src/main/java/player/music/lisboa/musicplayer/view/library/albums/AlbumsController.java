@@ -101,8 +101,8 @@ public class AlbumsController extends BaseController implements AlbumsView,
 		getParentController().getRouter()
 				.pushController(RouterTransaction
 						.with(new AlbumDetailController(album, position))
-						.pushChangeHandler(new SharedElementChangeHandler(titleSharedElementName/*, imageSharedElementName*/))
-						.popChangeHandler(new SharedElementChangeHandler(titleSharedElementName/*, imageSharedElementName*/)));
+						.pushChangeHandler(new SharedElementChangeHandler(titleSharedElementName, imageSharedElementName))
+						.popChangeHandler(new SharedElementChangeHandler(titleSharedElementName, imageSharedElementName)));
 	}
 
 	@Override

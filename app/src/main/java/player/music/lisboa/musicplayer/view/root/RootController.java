@@ -70,10 +70,6 @@ public class RootController extends BaseController implements NavigationView.OnN
 
 	@BindView(R.id.toolbar)
 	Toolbar toolbar;
-	@BindView(R.id.app_bar_layout)
-	AppBarLayout appBarLayout;
-	@BindView(R.id.collapsing_toolbar)
-	CollapsingToolbarLayout collapsingToolbarLayout;
 
 	@BindView(R.id.drawer_layout)
 	DrawerLayout drawerLayout;
@@ -81,8 +77,6 @@ public class RootController extends BaseController implements NavigationView.OnN
 	NavigationView navigationView;
 	@BindView(R.id.mini_player)
 	RelativeLayout miniPlayer;
-	@BindView(R.id.banner)
-	ImageView banner;
 
 	private Router router;
 	private ActionBarDrawerToggle drawerToggle;
@@ -181,25 +175,6 @@ public class RootController extends BaseController implements NavigationView.OnN
 		}
 		drawerToggle.syncState();
 	}
-
-	public void setBanner(int res, String transition){
-		banner.setImageResource(res);
-		//banner.setTransitionName(transition);
-	}
-
-	public void removeBanner() {
-		banner.setImageDrawable(null);
-	}
-
-	enum State {
-		EXPANDED,
-		COLLAPSED,
-	}
-
-	// TODO: 24-Jul-17 REFACTOR
-	State mCurrentState = State.EXPANDED;
-	Boolean toolbarIsTransparent = true;
-
 	/**
 	 * From the BaseController we can alter the state of the toolbar to enable/disable hiding
 	 * This will enable/disable the toolbar behavior so it doesn't close when scrolling
@@ -211,43 +186,11 @@ public class RootController extends BaseController implements NavigationView.OnN
 	public void toggleToolbarHide(boolean hideState) {
 		Log.d(TAG, "Toggle toolbar hide:" + hideState);
 
-		/*CollapsingToolbarLayout.LayoutParams toolbarLayoutParams = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
+		AppBarLayout.LayoutParams toolbarLayoutParams = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
 		if (hideState) {
 			toolbarLayoutParams.setScrollFlags(SCROLL_FLAG_SCROLL | SCROLL_FLAG_ENTER_ALWAYS);
 		} else {
 			toolbarLayoutParams.setScrollFlags(0);
-		}*/
-
-		TypedValue tv = new TypedValue();
-		int actionBarHeight = 0;
-		final Context context = getView().getContext();
-		final CharSequence title = toolbar.getTitle();
-		if (context.getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
-			actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, getResources().getDisplayMetrics());
-		}
-
-		if (appBarLayout != null) {
-			final int finalActionBarHeight = actionBarHeight;
-			appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-				@Override
-				public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
-					if (i == 0) {
-						mCurrentState = State.EXPANDED;
-					} else if (Math.abs(i) >= appBarLayout.getTotalScrollRange()) {
-						mCurrentState = State.COLLAPSED;
-					}
-					if ((collapsingToolbarLayout.getHeight() + i <= finalActionBarHeight) && mCurrentState.equals(State.COLLAPSED)) {
-						toolbar.setBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimary));
-						toolbar.setTitle(title);
-						toolbarIsTransparent = false;
-					} else if (!toolbarIsTransparent) {
-						mCurrentState = State.EXPANDED;
-						toolbar.setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent));
-						toolbar.setTitle(null);
-						toolbarIsTransparent = true;
-					}
-				}
-			});
 		}
 	}
 

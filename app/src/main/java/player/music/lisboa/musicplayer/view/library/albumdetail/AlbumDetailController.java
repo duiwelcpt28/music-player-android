@@ -96,6 +96,14 @@ public class AlbumDetailController extends BaseController implements AlbumDetail
 	}
 
 	@Override
+	public boolean handleBack() {
+		background.setImageDrawable(null);
+		background.setVisibility(View.GONE);
+		blurringView.setVisibility(View.GONE);
+		return super.handleBack();
+	}
+
+	@Override
 	protected void onAttach(@NonNull View view) {
 		super.onAttach(view);
 	}
@@ -115,22 +123,12 @@ public class AlbumDetailController extends BaseController implements AlbumDetail
 		blurringView.setBlurredView(background);
 		background.setImageResource(R.drawable.alterbridge);
 		blurringView.invalidate();
-
-		((RootController) getParentController()).setBanner(R.drawable.alterbridge,
-				getResources().getString(R.string.transition_tag_image_indexed, fromPosition));
 	}
 
 	@Override
 	protected String getTitle() {
 		return getArgs().getString(ALBUM_TITLE);
 	}
-
-	@Override
-	public boolean handleBack() {
-		((RootController) getParentController()).removeBanner();
-		return super.handleBack();
-	}
-
 	//MOSBY
 
 	@NonNull
@@ -222,8 +220,8 @@ public class AlbumDetailController extends BaseController implements AlbumDetail
 
 		class AlbumHeaderHolder extends ViewHolder{
 
-			/*@BindView(R.id.image_view)
-			ImageView imageView;*/
+			@BindView(R.id.image_view)
+			ImageView imageView;
 			@BindView(R.id.text_view)
 			TextView textView;
 
@@ -232,11 +230,10 @@ public class AlbumDetailController extends BaseController implements AlbumDetail
 			}
 
 			void bind(String title, String imageTransitionName, String textViewTransitionName) {
-				//imageView.setImageResource(R.drawable.alterbridge);
-
+				imageView.setImageResource(R.drawable.alterbridge);
 				textView.setText(title);
 
-				//ViewCompat.setTransitionName(imageView, imageTransitionName);
+				ViewCompat.setTransitionName(imageView, imageTransitionName);
 				ViewCompat.setTransitionName(textView, textViewTransitionName);
 			}
 

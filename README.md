@@ -6,18 +6,7 @@ Project developed to learn new development techniques, features and frameworks.
 
 Features to be available for first 1.0 release. Not all may be finished on the first pre-release.
 
-* Fast and efficient
-* Low memory footprint
-* Intuitive, colorful interface
-* Library management
-	* ie. Detect artists with same names(names with typo) and group
-* Lyrics
-* Artist pics and info
-* Music tags editing
-* Featureful Up Next functionality
-	* drag an drop to next/later
-	* quick reorder
-* more...
+* ...
 
 
 # Development

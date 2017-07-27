@@ -63,7 +63,7 @@ public class ArcFadeMoveChangeHandler extends SharedElementTransitionChangeHandl
 				.addTransition(new ChangeBounds())
 				.addTransition(new ChangeClipBounds())
 				.addTransition(new ChangeTransform());
-		/*transition.setPathMotion(new ArcMotion());
+		transition.setPathMotion(new ArcMotion());
 
 		// The framework doesn't totally fade out the "from" shared element, so we'll hide it manually once it's safe.
 		transition.addListener(new Transition.TransitionListener() {
@@ -90,7 +90,7 @@ public class ArcFadeMoveChangeHandler extends SharedElementTransitionChangeHandl
 
 			@Override
 			public void onTransitionResume(Transition transition) { }
-		});*/
+		});
 
 		return transition;
 	}

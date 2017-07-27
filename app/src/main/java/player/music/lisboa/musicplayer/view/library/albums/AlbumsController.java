@@ -60,8 +60,6 @@ public class AlbumsController extends BaseController implements AlbumsView,
 	@BindView(R.id.recycler_view)
 	RecyclerView recyclerView;
 
-	private AlbumAdapter listAlbumsAdapter;
-
 	@Inject
 	AlbumsPresenter albumsPresenter;
 
@@ -101,13 +99,13 @@ public class AlbumsController extends BaseController implements AlbumsView,
 		getParentController().getRouter()
 				.pushController(RouterTransaction
 						.with(new AlbumDetailController(album, position))
-						.pushChangeHandler(new SharedElementChangeHandler(titleSharedElementName, imageSharedElementName))
-						.popChangeHandler(new SharedElementChangeHandler(titleSharedElementName, imageSharedElementName)));
+						.pushChangeHandler(new ArcFadeMoveChangeHandler(titleSharedElementName, imageSharedElementName))
+						.popChangeHandler(new ArcFadeMoveChangeHandler(titleSharedElementName, imageSharedElementName)));
 	}
 
 	@Override
 	public void showAlbums(List<Album> albums) {
-		listAlbumsAdapter = new AlbumAdapter(LayoutInflater.from(getView().getContext()), albums);
+		AlbumAdapter listAlbumsAdapter = new AlbumAdapter(LayoutInflater.from(getView().getContext()), albums);
 		recyclerView.setHasFixedSize(true);
 		recyclerView.setLayoutManager(new GridLayoutManager(getView().getContext(), 2));
 		recyclerView.setAdapter(listAlbumsAdapter);
@@ -184,7 +182,7 @@ public class AlbumsController extends BaseController implements AlbumsView,
 			void bind(Album item, int position) {
 				this.position = position;
 				model = item;
-				imageView.setImageResource(R.drawable.alterbridge);
+				imageView.setImageResource(R.drawable.ic_album_black_24dp);
 				textView.setText(item.getName());
 
 				ViewCompat.setTransitionName(textView, getResources().getString(R.string.transition_tag_title_indexed, position));

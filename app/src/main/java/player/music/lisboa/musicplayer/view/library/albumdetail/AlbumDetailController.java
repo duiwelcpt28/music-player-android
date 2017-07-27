@@ -120,8 +120,11 @@ public class AlbumDetailController extends BaseController implements AlbumDetail
 				getResources().getString(R.string.transition_tag_image_indexed, fromPosition),
 				getResources().getString(R.string.transition_tag_title_indexed, fromPosition)));
 
+		blurringView.setVisibility(View.GONE);
+		background.setVisibility(View.GONE);
+
 		blurringView.setBlurredView(background);
-		background.setImageResource(R.drawable.alterbridge);
+		background.setImageResource(R.drawable.ic_album_black_24dp);
 		blurringView.invalidate();
 	}
 
@@ -189,25 +192,25 @@ public class AlbumDetailController extends BaseController implements AlbumDetail
 
 		@Override
 		public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-			if (viewType == VIEW_TYPE_HEADER) {
+			//if (viewType == VIEW_TYPE_HEADER) {
 				return new AlbumHeaderHolder(inflater.inflate(R.layout.controller_album_detail_header, parent, false));
-			} else {
+			/*} else {
 				return new AlbumSongHolder(inflater.inflate(R.layout.controller_album_detail_songs, parent, false));
-			}
+			}*/
 		}
 
 		@Override
 		public void onBindViewHolder(ViewHolder holder, int position) {
-			if (getItemViewType(position) == VIEW_TYPE_HEADER) {
+			//if (getItemViewType(position) == VIEW_TYPE_HEADER) {
 				((AlbumHeaderHolder)holder).bind(title, imageViewTransitionName, textViewTransitionName);
-			} else {
+			/*} else {
 				((AlbumSongHolder)holder).bind(songs.get(position - 1));
-			}
+			}*/
 		}
 
 		@Override
 		public int getItemCount() {
-			return 1 + songs.size();
+			return 1/* + songs.size()*/;
 		}
 
 		class ViewHolder extends RecyclerView.ViewHolder{
@@ -230,7 +233,7 @@ public class AlbumDetailController extends BaseController implements AlbumDetail
 			}
 
 			void bind(String title, String imageTransitionName, String textViewTransitionName) {
-				imageView.setImageResource(R.drawable.alterbridge);
+				imageView.setImageResource(R.drawable.ic_album_black_24dp);
 				textView.setText(title);
 
 				ViewCompat.setTransitionName(imageView, imageTransitionName);

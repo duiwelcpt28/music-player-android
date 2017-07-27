@@ -91,7 +91,9 @@ public class SharedElementChangeHandler extends SharedElementTransitionChangeHan
 	public void configureSharedElements(@NonNull ViewGroup container, @Nullable View from, @Nullable View to, boolean isPush) {
 		for (String name : names) {
 			addSharedElement(name);
-			waitOnSharedElementNamed(name);
+			// this line seems to be causing the album title and cover to be switched on exit transiton
+			// making the title on top of the cover in the AlbumsController
+			//waitOnSharedElementNamed(name);
 		}
 	}
 
